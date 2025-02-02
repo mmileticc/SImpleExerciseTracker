@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Button
+import android.widget.Chronometer
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
@@ -62,6 +64,14 @@ class MainActivity : Activity() {
     private lateinit var mesecni :String
     private lateinit var godisnji :String
 
+    private lateinit var chronometer: Chronometer
+    private lateinit var btnStartStop: Button
+    private lateinit var btnReset : Button
+
+    private var isRunning = false
+    private var pauseOffset: Long = 0
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Povezivanje glavnog layouta
@@ -95,6 +105,8 @@ class MainActivity : Activity() {
                 // Do nothing
             }
         }
+
+
         //postavljanje ponasanja dugmicima za sklekove
         btnPlusPushups.setOnClickListener {
             Log.d("MainActivity", "BtnPlusPushups clicked")
@@ -141,6 +153,27 @@ class MainActivity : Activity() {
             addExercise(etSitups.text.toString().toIntOrNull()?.times((-1)) ?: 0,  Exercise.SITUPS.toString())
             etSitups.setText("")
         }
+        btnStartStop.setOnClickListener {
+            if (!isRunning) {
+                chronometer.base = SystemClock.elapsedRealtime() - pauseOffset
+                chronometer.start()
+                btnStartStop.text = "Stop"
+                isRunning = true
+            } else {
+                pauseOffset = SystemClock.elapsedRealtime() - chronometer.base
+                chronometer.stop()
+                btnStartStop.text = "Start"
+                isRunning = false
+            }
+        }
+
+        btnReset.setOnClickListener {
+            chronometer.base = SystemClock.elapsedRealtime()
+            pauseOffset = 0
+            chronometer.stop()
+            isRunning = false
+            btnStartStop.text = "Start"
+        }
     }
 
     private fun initilazeComponents(){
@@ -178,6 +211,10 @@ class MainActivity : Activity() {
         dnevni = viewOptions[0]  // "Dnevni"
         mesecni = viewOptions[1]  // "Mesečni"
         godisnji = viewOptions[2]  // "Godišnji"
+
+        chronometer = findViewById(R.id.chronometer)
+        btnStartStop = findViewById(R.id.btnStartStop)
+        btnReset = findViewById<Button>(R.id.btnReset)
 
     }
 
