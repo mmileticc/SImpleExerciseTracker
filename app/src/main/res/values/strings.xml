@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ExerciseTracker</string>
+    <string-array name="view_options">
+        <item>Dnevno</item>
+        <item>Mesečno</item>
+        <item>Godišnje</item>
+    </string-array>
+</resources>
