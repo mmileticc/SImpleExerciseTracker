@@ -3,16 +3,21 @@ package com.example.exercisetracker
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.Chronometer
 import android.widget.EditText
+import android.widget.PopupWindow
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.example.exercisetracker.data.DatabaseProvider
 import com.example.exercisetracker.data.ExerciseDao
 import com.example.exercisetracker.data.ExerciseEntry
@@ -71,6 +76,17 @@ class MainActivity : Activity() {
     private var isRunning = false
     private var pauseOffset: Long = 0
 
+    private var limitPlank = 5
+    private var limitPushups = 100
+    private var limitPullups = 100
+    private var limitSquads = 100
+    private var limitSitups = 100
+
+    private fun getHalf(count:Int):Int{
+        var c = count / 2
+        return if( c *2 == count ) c
+        else c + 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +101,10 @@ class MainActivity : Activity() {
 
         //Postavljanje dogadjaja svim elementima
         initilazeListeners()
+
+        val btnShowPopup = findViewById<Button>(R.id.btnShowPopup)
+
+        btnShowPopup.setOnClickListener { showHintPopup(it) }
 
         readAllExercises()
     }
@@ -214,7 +234,7 @@ class MainActivity : Activity() {
 
         chronometer = findViewById(R.id.chronometer)
         btnStartStop = findViewById(R.id.btnStartStop)
-        btnReset = findViewById<Button>(R.id.btnReset)
+        btnReset = findViewById(R.id.btnReset)
 
     }
 
@@ -233,10 +253,12 @@ class MainActivity : Activity() {
         val monthAbbreviation = sdf.format(selectedCalendar.time)
 
         // Postavi vrednosti u EditText polja
-        tvDay.setText(currentDay.toString())
+        tvDay.setText("$currentDay.")
+        tvDay.tag = currentDay
         tvMonth.tag = currentMonth + 1
         tvMonth.setText(monthAbbreviation) // Prikazuje skraćeno ime meseca
-        tvYear.setText(currentYear.toString())
+        tvYear.tag = currentYear
+        tvYear.setText("$currentYear.")
 
     }
 
@@ -258,10 +280,12 @@ class MainActivity : Activity() {
                 val monthAbbreviation = sdf.format(selectedCalendar.time)
                 val numericMonth = selectedMonth + 1  // 1-based
 
-                tvDay.text = selectedDay.toString()
+                tvDay.text = "$selectedDay."
+                tvDay.tag = selectedDay
                 tvMonth.text = monthAbbreviation
                 tvMonth.tag = numericMonth  // Čuvamo broj meseca
-                tvYear.text = selectedYear.toString()
+                tvYear.text = "$selectedYear."
+                tvYear.tag = selectedYear
                 readAllExercises() // azurira vrednosti svih ispisa jer je promenjen datum
             },
             currentYear,
@@ -313,10 +337,10 @@ class MainActivity : Activity() {
         }
     }
 
-    private fun addExercise(countToAdd: Int, exercise: String) {
-        val day = tvDay.text.toString().toIntOrNull() ?: return
+    /*private fun addExerciseOriginal(countToAdd: Int, exercise: String) {
+        val day = tvDay.tag as? Int ?: return
         val numericMonth = tvMonth.tag as? Int ?: return
-        val year = tvYear.text.toString().toIntOrNull() ?: return
+        val year = tvYear.tag as? Int ?: return
         CoroutineScope(Dispatchers.IO).launch {
             exerciseDao.insertEntry(
                 ExerciseEntry(
@@ -329,14 +353,46 @@ class MainActivity : Activity() {
             )
            readExercise(exercise)
         }
+    }*/
+    private fun addExercise(countToAdd: Int, exercise: String) {
+        val day = tvDay.tag as? Int ?: return
+        val numericMonth = tvMonth.tag as? Int ?: return
+        val year = tvYear.tag as? Int ?: return
+
+        CoroutineScope(Dispatchers.IO).launch {
+            // Pokušaj da dohvatiš postojeći zapis
+            val existingEntry = exerciseDao.getEntry(day, numericMonth, year, exercise)
+            if (existingEntry != null) {
+                // Ako postoji, ažuriraj broj ponavljanja
+                val newCount = existingEntry.count + countToAdd
+                // Opcionalno, spreči da broj bude negativan:
+                val updatedCount = if (newCount < 0) 0 else newCount
+                val updatedEntry = existingEntry.copy(count = updatedCount)
+                exerciseDao.updateEntry(updatedEntry)
+            } else {
+                // Ako zapis ne postoji, napravi novi
+                exerciseDao.insertEntry(
+                    ExerciseEntry(
+                        day = day,
+                        month = numericMonth,
+                        year = year,
+                        exerciseType = exercise,
+                        count = countToAdd
+                    )
+                )
+            }
+            // Nakon ažuriranja/ubacivanja, osveži prikaz
+            readExercise(exercise)
+        }
     }
+
 
     @SuppressLint("SetTextI18n")
     private fun readExercise(exercise: String){
         val selectedPeriod = spinner.selectedItem.toString()
-        val day = tvDay.text.toString().toIntOrNull() ?: return
+        val day = tvDay.tag as? Int ?: return
         val numericMonth = tvMonth.tag as? Int ?: return
-        val year = tvYear.text.toString().toIntOrNull() ?: return
+        val year = tvYear.tag as? Int ?: return
 
         CoroutineScope(Dispatchers.IO).launch {
 
@@ -349,15 +405,40 @@ class MainActivity : Activity() {
 
             runOnUiThread {
                 when (exercise){
-                    Exercise.PUSHUPS.toString() -> tvTotalPushups.text = total.toString()
-                    Exercise.PULLUPS.toString() -> tvTotalPullups.text = total.toString()
-                    Exercise.PLANK.toString() -> tvTotalPlank.text = total.toString()
-                    Exercise.SQUATS.toString() -> tvTotalSquads.text = total.toString()
-                    Exercise.SITUPS.toString() -> tvTotalSitups.text = total.toString()
+                    Exercise.PUSHUPS.toString() -> {
+                        tvTotalPushups.text = total.toString();
+                        colorBackground(limitPushups, total, tvTotalPushups)
+                    }
+                    Exercise.PULLUPS.toString() -> {
+                        tvTotalPullups.text = total.toString()
+                        colorBackground(limitPullups, total, tvTotalPullups)
+                    }
+                    Exercise.PLANK.toString() -> {
+                        tvTotalPlank.text = total.toString()
+                        colorBackground(limitPlank, total, tvTotalPlank)
+                    }
+                    Exercise.SQUATS.toString() -> {
+                        tvTotalSquads.text = total.toString()
+                        colorBackground(limitSquads, total, tvTotalSquads)
+
+                    }
+                    Exercise.SITUPS.toString() -> {
+                        tvTotalSitups.text = total.toString()
+                        colorBackground(limitSitups, total, tvTotalSitups)
+                    }
 
                 }
             }
         }
+    }
+    private fun colorBackground(highLimit:Int, count:Int, tv:TextView){
+        val mediumLimit = getHalf(highLimit)
+        val dnevni = spinner.selectedItem.toString() == dnevni
+        if(dnevni){
+            if(count < mediumLimit) tv.setBackgroundColor(ContextCompat.getColor(this, R.color.redNotEnough)) //crvena
+            else if(count < highLimit) tv.setBackgroundColor(ContextCompat.getColor(this, R.color.orangeHalfDone)) //narandzasta
+            else tv.setBackgroundColor(ContextCompat.getColor(this, R.color.greenEnough)) //zelena
+        }else tv.setBackgroundColor(Color.TRANSPARENT)
     }
     private fun readAllExercises(){
         readExercise(Exercise.PUSHUPS.toString())
@@ -367,7 +448,32 @@ class MainActivity : Activity() {
         readExercise(Exercise.SQUATS.toString())
     }
 
+    private fun showHintPopup(view: View) {
+        // Inflater za popup layout
+        val inflater = LayoutInflater.from(this)
+        val popupView = inflater.inflate(R.layout.popup_hint, null)
 
+        // Kreiranje PopupWindow objekta
+        val popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true // Klik izvan zatvara popup
+        )
+
+        // Prikazi popup ispod dugmeta
+        popupWindow.showAsDropDown(view, 0, 0)
+
+        // Postavljanje teksta programatski ako treba
+        //val tvHintText = popupView.findViewById<TextView>(R.id.tvRedHint)
+        //tvHintText.text = "Ovo je moj prilagođeni tekst uputstva!"
+
+        // Dugme za zatvaranje popup-a
+        val btnClosePopup = popupView.findViewById<Button>(R.id.btnClosePopup)
+        btnClosePopup.setOnClickListener {
+            popupWindow.dismiss()
+        }
+    }
 }
 
 

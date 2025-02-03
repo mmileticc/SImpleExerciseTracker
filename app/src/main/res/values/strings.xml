@@ -1,5 +1,20 @@
 <resources>
     <string name="app_name">ExerciseTracker</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="_0">0</string>
+    <string name="prikaz">Prikaz</string>
+    <string name="sklekovi">Sklekovi</string>
+    <string name="zgibovi">Zgibovi</string>
+    <string name="trbusnjaci">Trbušnjaci</string>
+    <string name="cucnjevi">Čučnjevi</string>
+    <string name="izdrzajMin">Izdržaj (min)</string>
+    <string name="izaberi_datum">Izaberi datum</string>
+    <string name="reset">Reset</string>
+    <string name="start">Start</string>
+    <string name="dan">Dan</string>
+    <string name="mesec">Mesec</string>
+    <string name="godina">Godina</string>
     <string-array name="view_options">
         <item>Dnevno</item>
         <item>Mesečno</item>

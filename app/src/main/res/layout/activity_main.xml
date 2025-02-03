@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#D4BA75">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#D4BA75"
         android:orientation="vertical"
-
         android:padding="16dp">
 
 
@@ -15,208 +17,283 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:background="#C8A74E"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvDay"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.15"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:hint="Dan"
+                android:textStyle="bold"
+                android:hint="@string/dan"
+                android:textColor="@color/black"
                 android:inputType="number"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                tools:ignore="TextViewEdits" />
 
             <TextView
                 android:id="@+id/tvMonth"
-                android:textSize="20sp"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.15"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:hint="Mesec"
-                android:inputType="number" />
+                android:hint="@string/mesec"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:inputType="number"
+                android:textSize="20sp"
+                tools:ignore="TextViewEdits" />
 
             <TextView
                 android:id="@+id/tvYear"
-                android:textSize="20sp"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.25"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:hint="Godina"
-                android:inputType="number" />
+                android:hint="@string/godina"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:inputType="number"
+                android:textSize="20sp"
+                tools:ignore="TextViewEdits" />
 
             <Button
                 android:id="@+id/btnPickDate"
-                android:layout_width="wrap_content"
+                android:layout_margin="5dp"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Izaberi datum" />
+                android:text="@string/izaberi_datum" />
         </LinearLayout>
 
         <!-- Padajući meni -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:background="#BF654A"
             android:gravity="center_vertical"
-            android:layout_marginTop="10dp">
+            android:orientation="horizontal">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="3dp"
+                android:gravity="center"
                 android:layout_marginStart="8dp"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:text="Prikaz"
-                android:textSize="18sp"/>
+                android:text="@string/prikaz"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <Spinner
                 android:id="@+id/spinnerViewType"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:textSize="18sp"
-                android:entries="@array/view_options" />
+                android:gravity="center"
+                android:textStyle="bold"
+                android:entries="@array/view_options"
+                android:textSize="25sp" />
         </LinearLayout>
 
-        <!-- Rezultat vezbi-->
         <LinearLayout
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
-            <!-- Sklekovi -->
+            <!-- Rezultat vezbi-->
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="8dp">
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
+                android:layout_height="wrap_content"
+                android:background="#C8A74E"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_marginStart="8dp"
-                    android:layout_width="110dp"
-                    android:layout_height="wrap_content"
-                    android:text="Sklekovi"
-                    android:textSize="18sp" />
+                <!-- Sklekovi -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tvTotalPushups"
-                    android:textSize="18sp"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:gravity="center"
-                    android:hint=""
-                    />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.6"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/sklekovi"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/tvTotalPushups"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.4"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center"
+                        android:hint="Ukupno"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!-- Zgibovi -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.6"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/zgibovi"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/tvTotalPullups"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.4"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center"
+                        android:hint="Ukupno"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!-- Trbušnjaci -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.6"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/trbusnjaci"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/tvTotalSitups"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.4"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center"
+                        android:hint="Ukupno"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!-- Čučnjevi -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.6"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/cucnjevi"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/tvTotalSquads"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.4"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center"
+                        android:hint="Ukupno"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!-- Izdržaj -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.6"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/izdrzajMin"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/tvTotalPlank"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.4"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center"
+                        android:hint="Ukupno"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <!-- Zgibovi -->
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="8dp">
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
+                android:layout_height="match_parent"
+                tools:ignore="UselessLeaf">
 
-                <TextView
-                    android:layout_marginStart="8dp"
-                    android:layout_width="110dp"
+                <Button
+                    android:id="@+id/btnShowPopup"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Zgibovi"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/tvTotalPullups"
-                    android:textSize="18sp"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:gravity="center"
-                    android:hint=""
+                    android:text="Uputstvo"
                     />
 
-            </LinearLayout>
-
-            <!-- Trbušnjaci -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    android:layout_marginStart="8dp"
-                    android:layout_width="110dp"
-                    android:layout_height="wrap_content"
-                    android:text="Trbušnjaci"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/tvTotalSitups"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:hint=""
-                    android:gravity="center"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <!-- Čučnjevi -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    android:layout_marginStart="8dp"
-                    android:layout_width="110dp"
-                    android:layout_height="wrap_content"
-                    android:text="Čučnjevi"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/tvTotalSquads"
-                    android:textSize="18sp"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:gravity="center"
-                    android:hint=""
-                    />
-
-            </LinearLayout>
-
-            <!-- Izdržaj -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_marginStart="8dp"
-                    android:layout_width="110dp"
-                    android:layout_height="wrap_content"
-                    android:text="Izdržaj (min)"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/tvTotalPlank"
-                    android:textSize="18sp"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:gravity="center"
-                    android:hint=""
-                    />
 
             </LinearLayout>
 
@@ -226,251 +303,288 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:background="#BF654A"
+            android:orientation="vertical">
 
             <!-- Sklekovi -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
-                android:layout_marginTop="8dp">
+                android:orientation="horizontal">
 
 
                 <Button
                     android:id="@+id/btnMinusPushups"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="-"
-                    android:textSize="25sp"/>
+                    android:text="@string/minus"
+                    android:textSize="25sp" />
 
                 <TextView
-                    android:layout_width="100dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.3"
                     android:layout_height="wrap_content"
-                    android:text="Sklekovi"
                     android:gravity="center"
+                    android:text="@string/sklekovi"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textSize="18sp" />
+                    android:textColor="@color/black"/>
 
                 <EditText
                     android:id="@+id/etPushups"
-                    android:layout_width="60dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
                     android:layout_height="48dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="10dp"
-                    android:hint="0"
+                    android:digits="0123456789"
                     android:gravity="center"
-                    android:inputType="number"
-                    android:digits="0123456789"/>
-
-                <Button
-                    android:id="@+id/btnPlusPushups"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="+" />
-            </LinearLayout>
-
-            <!-- Zgibovi -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="8dp">
-
-                <Button
-                    android:id="@+id/btnMinusPullups"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="-"
-                    android:textSize="25sp"/>
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="Zgibovi"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/etPullups"
-                    android:layout_width="60dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="10dp"
-                    android:gravity="center"
-                    android:hint="0"
+                    android:hint="@string/_0"
                     android:inputType="number" />
 
                 <Button
-                    android:id="@+id/btnPlusPullups"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/btnPlusPushups"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="+" />
+                    android:textStyle="bold"
+                    android:text="@string/plus" />
             </LinearLayout>
+
+            <!-- Zgibovi -->
 
             <!-- Trbušnjaci -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
-                android:layout_marginTop="8dp">
+                android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btnMinusSitups"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/btnMinusPullups"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="-"
-                    android:textSize="25sp"/>
+                    android:text="@string/minus"
+                    android:textSize="25sp" />
 
                 <TextView
-                    android:layout_width="100dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.3"
                     android:layout_height="wrap_content"
-                    android:text="Trbušnjaci"
                     android:gravity="center"
+                    android:text="@string/zgibovi"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textSize="18sp" />
+                    android:textColor="@color/black"/>
 
                 <EditText
-                    android:id="@+id/etSitups"
-                    android:layout_width="60dp"
+                    android:id="@+id/etPullups"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
                     android:layout_height="48dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="10dp"
                     android:gravity="center"
-                    android:hint="0"
+                    android:hint="@string/_0"
+                    android:inputType="number" />
+
+                <Button
+                    android:id="@+id/btnPlusPullups"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@string/plus"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnMinusSitups"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/minus"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.3"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/trbusnjaci"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/etSitups"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    android:hint="@string/_0"
                     android:inputType="number" />
 
                 <Button
                     android:id="@+id/btnPlusSitups"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:layout_marginStart="4dp"
-                    android:text="+" />
+                    android:text="@string/plus" />
             </LinearLayout>
 
             <!-- Čučnjevi -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
-                android:layout_marginTop="8dp">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnMinusSquats"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="-"
-                    android:textSize="25sp"/>
+                    android:text="@string/minus"
+                    android:textSize="25sp" />
 
                 <TextView
-                    android:layout_width="100dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.3"
                     android:layout_height="wrap_content"
-                    android:text="Čučnjevi"
                     android:gravity="center"
+                    android:text="@string/cucnjevi"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textSize="18sp" />
+                    android:textColor="@color/black"/>
 
                 <EditText
                     android:id="@+id/etSquats"
-                    android:layout_width="60dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
                     android:layout_height="48dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="10dp"
                     android:gravity="center"
-                    android:hint="0"
+                    android:hint="@string/_0"
                     android:inputType="number" />
 
                 <Button
                     android:id="@+id/btnPlusSquats"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="+" />
+                    android:textStyle="bold"
+                    android:text="@string/plus" />
             </LinearLayout>
 
             <!-- Izdržaj -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
-                android:layout_marginTop="8dp">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnMinusPlank"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="-"
-                    android:textSize="25sp"/>
+                    android:text="@string/minus"
+                    android:textSize="25sp" />
 
                 <TextView
-                    android:layout_width="100dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.3"
                     android:layout_height="wrap_content"
-                    android:text="Izdržaj(min)"
                     android:gravity="center"
+                    android:text="@string/izdrzajMin"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textSize="18sp" />
+                    android:textColor="@color/black" />
 
                 <EditText
                     android:id="@+id/etPlank"
-                    android:layout_width="60dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
                     android:layout_height="48dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="10dp"
                     android:gravity="center"
-                    android:hint="0"
+                    android:hint="@string/_0"
                     android:inputType="numberDecimal" />
 
                 <Button
                     android:id="@+id/btnPlusPlank"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="+" />
+                    android:textStyle="bold"
+                    android:text="@string/plus" />
             </LinearLayout>
 
         </LinearLayout>
 
         <!--hronometar-->
         <LinearLayout
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
             android:gravity="center"
+            android:background="#C8A74E"
+            android:orientation="horizontal"
             android:padding="16dp">
 
             <Button
                 android:id="@+id/btnReset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reset" />
+                android:text="@string/reset"
+                android:textStyle="bold"/>
 
             <Chronometer
                 android:id="@+id/chronometer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnStartStop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Start" />
+                android:text="@string/start"
+                android:textStyle="bold"/>
 
         </LinearLayout>
 
