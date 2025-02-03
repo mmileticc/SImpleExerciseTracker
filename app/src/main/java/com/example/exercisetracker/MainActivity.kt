@@ -14,6 +14,7 @@ import android.widget.AdapterView
 import android.widget.Button
 import android.widget.Chronometer
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.PopupWindow
 import android.widget.Spinner
 import android.widget.TextView
@@ -73,6 +74,8 @@ class MainActivity : Activity() {
     private lateinit var btnStartStop: Button
     private lateinit var btnReset : Button
 
+    private lateinit var btnShowPopup : ImageButton
+
     private var isRunning = false
     private var pauseOffset: Long = 0
 
@@ -81,6 +84,12 @@ class MainActivity : Activity() {
     private var limitPullups = 100
     private var limitSquads = 100
     private var limitSitups = 100
+
+/*    private lateinit var tvLimitPushups : TextView
+    private lateinit var tvLimitPullups : TextView
+    private lateinit var tvLimitPlank : TextView
+    private lateinit var tvLimitSquads : TextView
+    private lateinit var tvLimitSitups : TextView*/
 
     private fun getHalf(count:Int):Int{
         var c = count / 2
@@ -102,12 +111,55 @@ class MainActivity : Activity() {
         //Postavljanje dogadjaja svim elementima
         initilazeListeners()
 
-        val btnShowPopup = findViewById<Button>(R.id.btnShowPopup)
-
-        btnShowPopup.setOnClickListener { showHintPopup(it) }
-
         readAllExercises()
+
+        //populateLimitTvs()
     }
+
+    private fun initilazeComponents(){
+        exerciseDao = DatabaseProvider.getDatabase(this).exerciseDao()
+        spinner = findViewById(R.id.spinnerViewType)
+
+        tvDay = findViewById(R.id.tvDay)
+        tvMonth = findViewById(R.id.tvMonth)
+        tvYear = findViewById(R.id.tvYear)
+        btnPickDate = findViewById(R.id.btnPickDate)
+        tvTotalPushups = findViewById(R.id.tvTotalPushups)
+        tvTotalPullups = findViewById(R.id.tvTotalPullups)
+        tvTotalSquads = findViewById(R.id.tvTotalSquads)
+        tvTotalSitups = findViewById(R.id.tvTotalSitups)
+        tvTotalPlank = findViewById(R.id.tvTotalPlank)
+
+        btnPlusPushups = findViewById(R.id.btnPlusPushups)
+        btnMinusPushups = findViewById(R.id.btnMinusPushups)
+        btnPlusPullups = findViewById(R.id.btnPlusPullups)
+        btnMinusPullups = findViewById(R.id.btnMinusPullups)
+        btnPlusSitups = findViewById(R.id.btnPlusSitups)
+        btnMinusSitups = findViewById(R.id.btnMinusSitups)
+        btnPlusSquads = findViewById(R.id.btnPlusSquats)
+        btnMinusSquads = findViewById(R.id.btnMinusSquats)
+        btnPlusPlank = findViewById(R.id.btnPlusPlank)
+        btnMinusPlank = findViewById(R.id.btnMinusPlank)
+
+        etPushups = findViewById(R.id.etPushups)
+        etPullups = findViewById(R.id.etPullups)
+        etSitups = findViewById(R.id.etSitups)
+        etSquads = findViewById(R.id.etSquats)
+        etPlank = findViewById(R.id.etPlank)
+
+        viewOptions = resources.getStringArray(R.array.view_options)
+        dnevni = viewOptions[0]  // "Dnevni"
+        mesecni = viewOptions[1]  // "Mesečni"
+        godisnji = viewOptions[2]  // "Godišnji"
+
+        chronometer = findViewById(R.id.chronometer)
+        btnStartStop = findViewById(R.id.btnStartStop)
+        btnReset = findViewById(R.id.btnReset)
+
+        btnShowPopup = findViewById(R.id.btnShowPopup)
+
+    }
+
 
     private fun initilazeListeners() {
         //Postavljanje ponasanja dugmetu za biranje datume
@@ -118,6 +170,12 @@ class MainActivity : Activity() {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, position: Int, id: Long) {
                 val selectedOption = parentView.getItemAtPosition(position) as String
+                if(selectedOption == dnevni){
+                   btnShowPopup.visibility = View.VISIBLE
+                }else{
+                    btnShowPopup.visibility = View.INVISIBLE
+
+                }
                 updateUIBasedOnSpinnerSelection(selectedOption)
                 readAllExercises()
             }
@@ -194,49 +252,13 @@ class MainActivity : Activity() {
             isRunning = false
             btnStartStop.text = "Start"
         }
+
+        btnShowPopup.setOnClickListener {
+            showHintPopup(it)
+
+        }
     }
 
-    private fun initilazeComponents(){
-        exerciseDao = DatabaseProvider.getDatabase(this).exerciseDao()
-        spinner = findViewById(R.id.spinnerViewType)
-
-        tvDay = findViewById(R.id.tvDay)
-        tvMonth = findViewById(R.id.tvMonth)
-        tvYear = findViewById(R.id.tvYear)
-        btnPickDate = findViewById(R.id.btnPickDate)
-        tvTotalPushups = findViewById(R.id.tvTotalPushups)
-        tvTotalPullups = findViewById(R.id.tvTotalPullups)
-        tvTotalSquads = findViewById(R.id.tvTotalSquads)
-        tvTotalSitups = findViewById(R.id.tvTotalSitups)
-        tvTotalPlank = findViewById(R.id.tvTotalPlank)
-
-        btnPlusPushups = findViewById(R.id.btnPlusPushups)
-        btnMinusPushups = findViewById(R.id.btnMinusPushups)
-        btnPlusPullups = findViewById(R.id.btnPlusPullups)
-        btnMinusPullups = findViewById(R.id.btnMinusPullups)
-        btnPlusSitups = findViewById(R.id.btnPlusSitups)
-        btnMinusSitups = findViewById(R.id.btnMinusSitups)
-        btnPlusSquads = findViewById(R.id.btnPlusSquats)
-        btnMinusSquads = findViewById(R.id.btnMinusSquats)
-        btnPlusPlank = findViewById(R.id.btnPlusPlank)
-        btnMinusPlank = findViewById(R.id.btnMinusPlank)
-
-        etPushups = findViewById(R.id.etPushups)
-        etPullups = findViewById(R.id.etPullups)
-        etSitups = findViewById(R.id.etSitups)
-        etSquads = findViewById(R.id.etSquats)
-        etPlank = findViewById(R.id.etPlank)
-
-        viewOptions = resources.getStringArray(R.array.view_options)
-        dnevni = viewOptions[0]  // "Dnevni"
-        mesecni = viewOptions[1]  // "Mesečni"
-        godisnji = viewOptions[2]  // "Godišnji"
-
-        chronometer = findViewById(R.id.chronometer)
-        btnStartStop = findViewById(R.id.btnStartStop)
-        btnReset = findViewById(R.id.btnReset)
-
-    }
 
     @SuppressLint("SetTextI18n")
     private fun setCurrentDate() {
@@ -337,24 +359,8 @@ class MainActivity : Activity() {
         }
     }
 
-    /*private fun addExerciseOriginal(countToAdd: Int, exercise: String) {
-        val day = tvDay.tag as? Int ?: return
-        val numericMonth = tvMonth.tag as? Int ?: return
-        val year = tvYear.tag as? Int ?: return
-        CoroutineScope(Dispatchers.IO).launch {
-            exerciseDao.insertEntry(
-                ExerciseEntry(
-                    day = day,
-                    month = numericMonth,
-                    year = year,
-                    exerciseType = exercise,
-                    count = countToAdd
-                )
-            )
-           readExercise(exercise)
-        }
-    }*/
     private fun addExercise(countToAdd: Int, exercise: String) {
+        if(countToAdd == 0) return
         val day = tvDay.tag as? Int ?: return
         val numericMonth = tvMonth.tag as? Int ?: return
         val year = tvYear.tag as? Int ?: return
@@ -386,7 +392,6 @@ class MainActivity : Activity() {
         }
     }
 
-
     @SuppressLint("SetTextI18n")
     private fun readExercise(exercise: String){
         val selectedPeriod = spinner.selectedItem.toString()
@@ -406,7 +411,7 @@ class MainActivity : Activity() {
             runOnUiThread {
                 when (exercise){
                     Exercise.PUSHUPS.toString() -> {
-                        tvTotalPushups.text = total.toString();
+                        tvTotalPushups.text = total.toString()
                         colorBackground(limitPushups, total, tvTotalPushups)
                     }
                     Exercise.PULLUPS.toString() -> {
@@ -447,12 +452,23 @@ class MainActivity : Activity() {
         readExercise(Exercise.SITUPS.toString())
         readExercise(Exercise.SQUATS.toString())
     }
-
+    @SuppressLint("SetTextI18n")
     private fun showHintPopup(view: View) {
         // Inflater za popup layout
         val inflater = LayoutInflater.from(this)
         val popupView = inflater.inflate(R.layout.popup_hint, null)
 
+        val tvLimitPullups = popupView.findViewById<TextView>(R.id.tvLimitPullups)
+        val tvLimitPlank = popupView.findViewById<TextView>(R.id.tvLimitPlank)
+        val tvLimitSquads = popupView.findViewById<TextView>(R.id.tvLimitSquads)
+        val tvLimitSitups = popupView.findViewById<TextView>(R.id.tvLimitSitups)
+        val tvLimitPushups = popupView.findViewById<TextView>(R.id.tvLimitPushups)
+
+        tvLimitPushups.text = limitPushups.toString()
+        tvLimitPullups.text = limitPullups.toString()
+        tvLimitPlank.text = limitPlank.toString()
+        tvLimitSquads.text = limitSquads.toString()
+        tvLimitSitups.text = limitSitups.toString()
         // Kreiranje PopupWindow objekta
         val popupWindow = PopupWindow(
             popupView,
@@ -464,16 +480,15 @@ class MainActivity : Activity() {
         // Prikazi popup ispod dugmeta
         popupWindow.showAsDropDown(view, 0, 0)
 
-        // Postavljanje teksta programatski ako treba
-        //val tvHintText = popupView.findViewById<TextView>(R.id.tvRedHint)
-        //tvHintText.text = "Ovo je moj prilagođeni tekst uputstva!"
-
         // Dugme za zatvaranje popup-a
         val btnClosePopup = popupView.findViewById<Button>(R.id.btnClosePopup)
+
         btnClosePopup.setOnClickListener {
             popupWindow.dismiss()
         }
+
     }
+
 }
 
 

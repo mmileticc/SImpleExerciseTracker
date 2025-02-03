@@ -10,4 +10,5 @@
     <color name="orangeHalfDone">#DC8A23</color>
     <color name="redNotEnough">#DD223D</color>
     <color name="greenEnough">#37C86D</color>
+    <color name="blue">#0000ff</color>
 </resources>
